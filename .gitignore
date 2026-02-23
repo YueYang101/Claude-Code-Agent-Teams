@@ -1,0 +1,11 @@
+# Project-specific (not part of the reusable config)
+src/
+tests/
+pyproject.toml
+*.egg-info/
+__pycache__/
+Log/
+.DS_Store
+
+# Personal settings (never share)
+.claude/settings.local.json

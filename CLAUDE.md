@@ -1,0 +1,61 @@
+# agent-team-config
+
+## Coding Conventions
+
+- Follow PEP 8; max line length 100.
+- Use type hints on all public functions.
+- Docstrings: Google style.
+- Imports: stdlib → third-party → local, separated by blank lines.
+- No wildcard imports.
+- Prefer `pathlib.Path` over `os.path`.
+- Tests mirror source layout under `tests/`.
+
+<!-- AGENT-TEAM-CONFIG-START -->
+## Agent Team Rules
+
+1. **Read before writing.** Always read the target file before editing it.
+2. **One concern per commit.** Each logical change gets its own commit.
+3. **Update session memory.** After completing work, update `PROGRESS.md`.
+4. **Respect module ownership.** See `ARCHITECTURE.md` for directory boundaries.
+5. **Run tests.** Every code change must pass tests before marking a task complete.
+6. **No secrets in code.** Environment variables for credentials; never hardcode.
+
+## Skills (Team Workflows)
+
+Three ways to launch teams (from most to least automated):
+
+```
+/team add a task dashboard          → Manager evaluates, asks questions if needed,
+                                      assembles custom team dynamically
+
+/team-feature add a task dashboard  → Selector shows backend vs fullstack choice,
+                                      user picks, runs preset pipeline
+
+/team-feature-fullstack add a ...   → Direct: runs the 7-agent preset immediately
+```
+
+| Skill | Agents | Use When |
+|-------|--------|----------|
+| `/team` | _(dynamic — manager selects)_ | Let the manager pick the optimal team for any request |
+| `/team-feature` | _(selector)_ | Choose between backend or fullstack feature workflow |
+| `/team-feature-backend` | researcher → architect → coder → tester → documentor → logger | Backend-only feature (no UI) |
+| `/team-feature-fullstack` | researcher → architect → [backend-coder + ui-coder] → tester → documentor → logger | Fullstack feature (parallel coders) |
+| `/team-bugfix` | _(selector)_ | Choose between backend or fullstack bugfix workflow |
+| `/team-bugfix-backend` | researcher → coder → tester → documentor → logger | Backend-only bug fix |
+| `/team-bugfix-fullstack` | researcher → [backend-coder + ui-coder] → tester → documentor → logger | Fullstack bug fix (parallel coders) |
+| `/team-quick` | _(selector)_ | Choose between backend or fullstack quick task |
+| `/team-quick-backend` | coder → tester → documentor → logger | Small backend-only change |
+| `/team-quick-fullstack` | [backend-coder + ui-coder] → tester → documentor → logger | Small fullstack change (parallel coders) |
+| `/distribute-log` | researcher → logger | Manually recording a daily dev log |
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `CLAUDE.md` | This file — project brief and conventions |
+| `PROGRESS.md` | Session memory: sprint status tracking |
+| `ARCHITECTURE.md` | Module structure and ownership map |
+| `.claude/settings.json` | Claude Code settings (agent teams enabled) |
+| `.claude/skills/*/SKILL.md` | Reusable multi-agent team skills (with frontmatter) |
+| `.claude/agents/*.md` | Reusable agent personas (researcher, coder, tester, etc.) |
+<!-- AGENT-TEAM-CONFIG-END -->
