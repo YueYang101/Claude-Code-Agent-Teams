@@ -2,14 +2,14 @@
 
 Reusable multi-agent team configuration for Claude Code. Gives any project
 a full team of specialist agents (researcher, architect, coder, tester,
-documentor, logger) that coordinate via skills.
+documentor, logger, git-manager) that coordinate via skills.
 
 ## Quick Start
 
 ### Option A: Bootstrap an existing project (recommended)
 
 ```bash
-git clone https://github.com/yanger/agent-team-config.git ~/agent-team-config
+git clone https://github.com/YueYang101/Claude-Code-Agent-Teams.git ~/agent-team-config
 cd your-project/
 ~/agent-team-config/init.sh .
 ```
@@ -21,13 +21,13 @@ Click "Use this template" on GitHub to create a new repo with the full config.
 ### Option C: Manual copy
 
 ```bash
-git clone https://github.com/yanger/agent-team-config.git
+git clone https://github.com/YueYang101/Claude-Code-Agent-Teams.git
 cp -r agent-team-config/.claude/ your-project/.claude/
 ```
 
 ## What You Get
 
-### 7 Agent Personas (`.claude/agents/`)
+### 8 Agent Personas (`.claude/agents/`)
 
 | Agent | Role | Tools |
 |-------|------|-------|
@@ -38,30 +38,37 @@ cp -r agent-team-config/.claude/ your-project/.claude/
 | tester | Writes and runs tests | Read + Bash + Edit |
 | documentor | Updates PROGRESS.md, ARCHITECTURE.md | Read + Edit |
 | logger | Records daily dev log entries | Read + Bash + Edit |
+| git-manager | Commit cleanup, branch management, PR prep | Read + Bash + Edit |
 
-### 11 Team Skills (`.claude/skills/`)
+### 13 Team Skills (`.claude/skills/`)
 
 Three tiers of automation:
 
 ```
 /team <request>                  → Manager picks optimal team dynamically
 /team-feature <desc>             → Selector: backend or fullstack?
-/team-feature-fullstack <desc>   → Direct: 7-agent preset pipeline
+/team-feature-fullstack <desc>   → Direct: preset pipeline
 ```
 
 | Skill | Pipeline | Use When |
 |-------|----------|----------|
 | /team | dynamic | Any request — manager selects agents |
 | /team-feature | selector | New feature |
-| /team-feature-backend | 6 agents | Backend-only feature |
-| /team-feature-fullstack | 7 agents (parallel coders) | Fullstack feature |
+| /team-feature-backend | core + epilogue | Backend-only feature |
+| /team-feature-fullstack | core + epilogue (parallel coders) | Fullstack feature |
 | /team-bugfix | selector | Bug fix |
-| /team-bugfix-backend | 5 agents | Backend-only bug fix |
-| /team-bugfix-fullstack | 6 agents (parallel coders) | Fullstack bug fix |
+| /team-bugfix-backend | core + epilogue | Backend-only bug fix |
+| /team-bugfix-fullstack | core + epilogue (parallel coders) | Fullstack bug fix |
 | /team-quick | selector | Small change |
-| /team-quick-backend | 4 agents | Small backend change |
-| /team-quick-fullstack | 5 agents (parallel coders) | Small fullstack change |
+| /team-quick-backend | core + epilogue | Small backend change |
+| /team-quick-fullstack | core + epilogue (parallel coders) | Small fullstack change |
 | /distribute-log | 2 agents | Record daily dev log |
+| /git-cleanup | 1 agent | Standalone commit cleanup and PR prep |
+| /update-docs | 1 agent | Standalone documentation update |
+
+> **Pipeline structure**: All preset pipelines use a two-phase approach:
+> - **Core phase** (blocking): researcher → architect → coder(s) → tester
+> - **Epilogue phase** (background, optional): documentor + logger + git-manager run in parallel, gated by smart criteria
 
 ## Prerequisites
 
@@ -75,7 +82,7 @@ the container's workspace and run `init.sh`:
 
 ```bash
 # Inside container
-git clone https://github.com/yanger/agent-team-config.git /tmp/agent-team-config
+git clone https://github.com/YueYang101/Claude-Code-Agent-Teams.git /tmp/agent-team-config
 cd /workspace/my-project
 /tmp/agent-team-config/init.sh .
 ```
@@ -122,15 +129,16 @@ Your skill's workflow instructions here.
 ```
 .claude/
 ├── settings.json              # Enables agent teams
-├── agents/                    # 7 reusable agent personas
+├── agents/                    # 8 reusable agent personas
 │   ├── manager.md
 │   ├── researcher.md
 │   ├── backend-coder.md
 │   ├── ui-coder.md
 │   ├── tester.md
 │   ├── documentor.md
-│   └── logger.md
-└── skills/                    # 11 team workflow skills
+│   ├── logger.md
+│   └── git-manager.md
+└── skills/                    # 13 team workflow skills
     ├── team/SKILL.md
     ├── team-feature/SKILL.md
     ├── team-feature-backend/SKILL.md
@@ -146,7 +154,9 @@ Your skill's workflow instructions here.
     ├── team-quick/SKILL.md
     ├── team-quick-backend/SKILL.md
     ├── team-quick-fullstack/SKILL.md
-    └── distribute-log/SKILL.md
+    ├── distribute-log/SKILL.md
+    ├── git-cleanup/SKILL.md
+    └── update-docs/SKILL.md
 
 templates/                     # Starter docs for bootstrapped projects
 ├── CLAUDE.md.template

@@ -1,12 +1,12 @@
 ---
 name: team-bugfix-fullstack
-description: Fullstack bug fix with parallel backend + UI coders
+description: Fullstack bug fix with parallel backend + UI coders + optional epilogue
 disable-model-invocation: true
 argument-hint: <bug description>
 ---
 # Team: Bug Fix (Fullstack)
 
-Fullstack bug investigation and fix team with 6 agents. Backend Coder and UI Coder run in parallel after the Researcher (fork-join pattern).
+Fullstack bug investigation and fix team with parallel coders (fork-join). After the core phase completes and results are reported, optional epilogue agents run in the background.
 
 ## Bug Report
 $ARGUMENTS
@@ -16,16 +16,20 @@ $ARGUMENTS
 Create a team with the following agents and task dependencies:
 
 ```
+CORE PHASE (blocking):
                 Researcher
                 /        \
       Backend Coder    UI Coder     ← parallel
                 \        /
                  Tester             ← waits for both
-                    |
-                Documentor
-                    |
-                  Logger
+
+EPILOGUE PHASE (background, optional, parallel):
+  Tester → [Documentor + Logger + Git Manager]
 ```
+
+---
+
+### Core Phase
 
 ### 1. Researcher (Explore agent — `.claude/agents/researcher.md`)
 - **Task**: Reproduce and investigate the bug across both backend and frontend layers. Read relevant source files and tests. Check browser console errors, network responses, and Python tracebacks. Identify the root cause, affected files, and blast radius. Tag the root cause as **frontend**, **backend**, or **integration**. Check `PROGRESS.md` for any related known issues. Use the bug report template at `bug-report-template.md` in this skill directory to structure your analysis.
@@ -51,12 +55,24 @@ Create a team with the following agents and task dependencies:
 - **Output**: Regression tests added for affected layers, full suite passing.
 - **Blocked by**: Backend Coder, UI Coder
 
-### 5. Documentor (general-purpose agent — `.claude/agents/documentor.md`)
+---
+
+**After the Tester completes, report the result to the user.** The core deliverable is done. Then evaluate the epilogue.
+
+---
+
+### Epilogue Phase (background, optional)
+
+Evaluate each agent's gating criteria. Spawn those that pass **in parallel, in the background** (`run_in_background: true`). All are blocked only by Tester (not by each other). Epilogue failure does not fail the pipeline.
+
+### 5. Documentor (general-purpose agent — `.claude/agents/documentor.md`) — *optional*
+- **Gate**: Run if the bug fix changed code structure or revealed an architectural issue. Skip for trivial one-line fixes.
 - **Task**: Update `PROGRESS.md` with the fix. If the bug revealed an architectural issue, note it in `ARCHITECTURE.md`. Include any new frontend directories if created.
 - **Output**: Updated session memory.
 - **Blocked by**: Tester
 
-### 6. Logger (general-purpose agent — `.claude/agents/logger.md`)
+### 6. Logger (general-purpose agent — `.claude/agents/logger.md`) — *optional*
+- **Gate**: Run if meaningful work was done (commits exist, tasks were completed). Skip if no commits were made or user said "skip logging".
 - **Task**: Record this bugfix in the daily dev log. Read the team's task list
   and completed work summary. Create `Log/<YYYY-MM>/` directory if it doesn't
   exist. Write or append to `Log/<YYYY-MM>/<YYYY-MM-DD>.md` using today's date.
@@ -64,7 +80,13 @@ Create a team with the following agents and task dependencies:
   were affected). If the file already exists, append under a `---` separator with
   a timestamp.
 - **Output**: Daily log entry written/appended at `Log/<YYYY-MM>/<YYYY-MM-DD>.md`.
-- **Blocked by**: Documentor
+- **Blocked by**: Tester
+
+### 7. Git Manager (general-purpose agent — `.claude/agents/git-manager.md`) — *optional*
+- **Gate**: Run if >2 commits, or WIP/fixup commit messages exist, or work is on main/master. Skip for single clean commit or if user manages git themselves.
+- **Task**: Clean up commit history — squash fixups, rewrite messages to conventional format. Ensure work is on a feature branch (not main/master). Optionally prepare a PR description.
+- **Output**: Clean commit history on feature branch, PR description ready.
+- **Blocked by**: Tester
 
 ## Reference Files
 - `bug-report-template.md` — Template for the Researcher's bug analysis

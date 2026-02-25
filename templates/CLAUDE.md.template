@@ -19,22 +19,26 @@ Three ways to launch teams (from most to least automated):
 /team-feature add a task dashboard  → Selector shows backend vs fullstack choice,
                                       user picks, runs preset pipeline
 
-/team-feature-fullstack add a ...   → Direct: runs the 7-agent preset immediately
+/team-feature-fullstack add a ...   → Direct: runs preset pipeline immediately
 ```
 
 | Skill | Agents | Use When |
 |-------|--------|----------|
 | `/team` | _(dynamic — manager selects)_ | Let the manager pick the optimal team for any request |
 | `/team-feature` | _(selector)_ | Choose between backend or fullstack feature workflow |
-| `/team-feature-backend` | researcher → architect → coder → tester → documentor → logger | Backend-only feature (no UI) |
-| `/team-feature-fullstack` | researcher → architect → [backend-coder + ui-coder] → tester → documentor → logger | Fullstack feature (parallel coders) |
+| `/team-feature-backend` | researcher → architect → coder → tester ∥ [epilogue] | Backend-only feature (no UI) |
+| `/team-feature-fullstack` | researcher → architect → [backend-coder + ui-coder] → tester ∥ [epilogue] | Fullstack feature (parallel coders) |
 | `/team-bugfix` | _(selector)_ | Choose between backend or fullstack bugfix workflow |
-| `/team-bugfix-backend` | researcher → coder → tester → documentor → logger | Backend-only bug fix |
-| `/team-bugfix-fullstack` | researcher → [backend-coder + ui-coder] → tester → documentor → logger | Fullstack bug fix (parallel coders) |
+| `/team-bugfix-backend` | researcher → coder → tester ∥ [epilogue] | Backend-only bug fix |
+| `/team-bugfix-fullstack` | researcher → [backend-coder + ui-coder] → tester ∥ [epilogue] | Fullstack bug fix (parallel coders) |
 | `/team-quick` | _(selector)_ | Choose between backend or fullstack quick task |
-| `/team-quick-backend` | coder → tester → documentor → logger | Small backend-only change |
-| `/team-quick-fullstack` | [backend-coder + ui-coder] → tester → documentor → logger | Small fullstack change (parallel coders) |
+| `/team-quick-backend` | coder → tester ∥ [epilogue] | Small backend-only change |
+| `/team-quick-fullstack` | [backend-coder + ui-coder] → tester ∥ [epilogue] | Small fullstack change (parallel coders) |
 | `/distribute-log` | researcher → logger | Manually recording a daily dev log |
+| `/git-cleanup` | git-manager | Standalone commit cleanup, branch management, PR prep |
+| `/update-docs` | documentor | Standalone documentation update |
+
+> **∥ [epilogue]** = after tester completes, the team lead evaluates and optionally spawns documentor, logger, and/or git-manager **in parallel, in the background**. See pipeline skill files for gating criteria.
 
 ## Key Files
 
@@ -45,5 +49,5 @@ Three ways to launch teams (from most to least automated):
 | `ARCHITECTURE.md` | Module structure and ownership map |
 | `.claude/settings.json` | Claude Code settings (agent teams enabled) |
 | `.claude/skills/*/SKILL.md` | Reusable multi-agent team skills (with frontmatter) |
-| `.claude/agents/*.md` | Reusable agent personas (researcher, coder, tester, etc.) |
+| `.claude/agents/*.md` | Reusable agent personas (researcher, coder, tester, git-manager, etc.) |
 <!-- AGENT-TEAM-CONFIG-END -->
