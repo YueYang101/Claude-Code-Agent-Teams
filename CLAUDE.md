@@ -11,6 +11,34 @@
 - Tests mirror source layout under `tests/`.
 
 <!-- AGENT-TEAM-CONFIG-START -->
+## Auto-Trigger Agent Teams
+
+**MANDATORY**: On EVERY user message, you MUST automatically route the request through the agent team system by invoking `/team`. Do NOT work solo — always use the team workflow unless the user explicitly opts out.
+
+### How It Works
+
+1. **Every request goes to the manager agent** via `/team` — the manager evaluates, classifies, and assembles the optimal team
+2. **Default assumption: all tasks are complex.** Downgrade to single-agent only if the scope is provably trivial
+3. **The manager decides** the team composition, agent count, and execution order — not a static lookup table
+4. **No exceptions** for investigation, research, or "just a question" requests — the manager routes these to a researcher agent
+
+### When to Skip (Opt-Out Only)
+
+Teams are skipped ONLY when the user explicitly says:
+- "no team" / "solo" / "do it yourself" / "skip agents" / "just answer"
+- These disable the team for that single message only — next message re-enables auto-trigger
+
+### Complexity Guidelines
+
+| Scope | Team Size | Example |
+|-------|-----------|---------|
+| Trivial (provably single-line) | Skip teams | "what does X mean?", greetings |
+| Small (1-2 files) | 2-3 agents | rename, config change, quick fix |
+| Standard (3-5 files) | 3-5 agents | feature, bugfix, refactor |
+| Complex (5+ files, multi-layer) | 5-7 agents | fullstack feature, large refactor |
+
+**When in doubt, use more agents, not fewer.**
+
 ## Agent Team Rules
 
 1. **Read before writing.** Always read the target file before editing it.
