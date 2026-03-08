@@ -1,7 +1,6 @@
 ---
 name: team-quick-fullstack
 description: Small fullstack change with parallel coders + optional epilogue
-disable-model-invocation: true
 argument-hint: <task description>
 ---
 # Team: Quick Task (Fullstack)

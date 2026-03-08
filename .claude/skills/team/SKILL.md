@@ -1,7 +1,6 @@
 ---
 name: team
 description: Universal team launcher — analyzes your request and assembles the optimal agent team
-disable-model-invocation: true
 argument-hint: <description of what you want to do>
 ---
 # Universal Team Launcher

@@ -1,7 +1,6 @@
 ---
 name: team-feature
 description: Choose between backend or fullstack feature workflow
-disable-model-invocation: true
 argument-hint: <feature description>
 ---
 # Team: Feature Implementation — Selector

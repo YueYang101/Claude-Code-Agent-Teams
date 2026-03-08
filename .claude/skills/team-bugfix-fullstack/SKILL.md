@@ -1,7 +1,6 @@
 ---
 name: team-bugfix-fullstack
 description: Fullstack bug fix with parallel backend + UI coders + optional epilogue
-disable-model-invocation: true
 argument-hint: <bug description>
 ---
 # Team: Bug Fix (Fullstack)

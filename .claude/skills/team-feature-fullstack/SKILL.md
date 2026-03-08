@@ -1,7 +1,6 @@
 ---
 name: team-feature-fullstack
 description: Fullstack feature with parallel backend + UI coders + optional epilogue
-disable-model-invocation: true
 argument-hint: <feature description>
 ---
 # Team: Feature Implementation (Fullstack)

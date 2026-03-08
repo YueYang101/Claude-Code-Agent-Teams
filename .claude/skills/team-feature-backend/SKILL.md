@@ -1,7 +1,6 @@
 ---
 name: team-feature-backend
 description: Backend-only feature with sequential core pipeline + optional epilogue
-disable-model-invocation: true
 argument-hint: <feature description>
 ---
 # Team: Feature Implementation (Backend)

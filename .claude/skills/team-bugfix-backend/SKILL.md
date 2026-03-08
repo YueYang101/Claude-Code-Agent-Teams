@@ -1,7 +1,6 @@
 ---
 name: team-bugfix-backend
 description: Backend-only bug fix with sequential core pipeline + optional epilogue
-disable-model-invocation: true
 argument-hint: <bug description>
 ---
 # Team: Bug Fix (Backend)

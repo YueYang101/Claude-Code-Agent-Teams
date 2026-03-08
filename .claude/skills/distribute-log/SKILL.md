@@ -1,7 +1,6 @@
 ---
 name: distribute-log
 description: Record daily dev log from session activity
-disable-model-invocation: true
 argument-hint: [optional notes]
 ---
 # Team: Daily Dev Log

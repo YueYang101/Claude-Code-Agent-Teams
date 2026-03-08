@@ -1,7 +1,6 @@
 ---
 name: update-docs
 description: Update PROGRESS.md, ARCHITECTURE.md, and add docstrings
-disable-model-invocation: true
 argument-hint: [optional scope or description of recent changes]
 ---
 # Standalone: Update Documentation

@@ -1,7 +1,6 @@
 ---
 name: team-quick-backend
 description: Small backend-only change with core pipeline + optional epilogue
-disable-model-invocation: true
 argument-hint: <task description>
 ---
 # Team: Quick Task (Backend)

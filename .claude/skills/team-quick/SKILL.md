@@ -1,7 +1,6 @@
 ---
 name: team-quick
 description: Choose between backend or fullstack quick task
-disable-model-invocation: true
 argument-hint: <task description>
 ---
 # Team: Quick Task — Selector

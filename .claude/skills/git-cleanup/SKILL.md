@@ -1,7 +1,6 @@
 ---
 name: git-cleanup
 description: Clean up commits, manage branches, and prepare PRs
-disable-model-invocation: true
 argument-hint: [optional branch name or PR title]
 ---
 # Standalone: Git Cleanup

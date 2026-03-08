@@ -1,7 +1,6 @@
 ---
 name: team-bugfix
 description: Choose between backend or fullstack bugfix workflow
-disable-model-invocation: true
 argument-hint: <bug description>
 ---
 # Team: Bug Fix — Selector
